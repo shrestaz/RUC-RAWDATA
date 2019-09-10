@@ -1,0 +1,1 @@
+This repository will contain the assignments from the course Responsive Applications, Web services and Databases (RAWDATA) of Masters in Computer Science at Roskilde University.
