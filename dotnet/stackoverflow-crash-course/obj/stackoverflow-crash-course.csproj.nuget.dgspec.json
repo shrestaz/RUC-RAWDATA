@@ -1,0 +1,58 @@
+{
+  "format": 1,
+  "restore": {
+    "/home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/stackoverflow-crash-course.csproj": {}
+  },
+  "projects": {
+    "/home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/stackoverflow-crash-course.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "/home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/stackoverflow-crash-course.csproj",
+        "projectName": "stackoverflow-crash-course",
+        "projectPath": "/home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/stackoverflow-crash-course.csproj",
+        "packagesPath": "/home/thatonedroid/.nuget/packages/",
+        "outputPath": "/home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/obj/",
+        "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        ],
+        "configFilePaths": [
+          "/home/thatonedroid/.nuget/NuGet/NuGet.Config"
+        ],
+        "originalTargetFrameworks": [
+          "netcoreapp2.2"
+        ],
+        "sources": {
+          "https://api.nuget.org/v3/index.json": {}
+        },
+        "frameworks": {
+          "netcoreapp2.2": {
+            "projectReferences": {}
+          }
+        },
+        "warningProperties": {
+          "warnAsError": [
+            "NU1605"
+          ]
+        }
+      },
+      "frameworks": {
+        "netcoreapp2.2": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[2.2.0, )",
+              "autoReferenced": true
+            }
+          },
+          "imports": [
+            "net461"
+          ],
+          "assetTargetFallback": true,
+          "warn": true
+        }
+      }
+    }
+  }
+}
