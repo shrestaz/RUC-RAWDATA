@@ -1,0 +1,244 @@
+-- GROUP: raw4, MEMBERS: Ozge Yasayan, Shushma Devi Gurung, Ivan Spajic, Manish Shrestha
+
+\timing
+Timing is on.
+
+-- a)
+select title, production_year
+from movie
+where title like 'Pirates of the Caribbean%'
+  and kind = 'movie';
+
+                         title                          | production_year 
+--------------------------------------------------------+-----------------
+ Pirates of the Caribbean 6                             |                
+ Pirates of the Caribbean: At World's End               |            2007
+ Pirates of the Caribbean: Dead Man's Chest             |            2006
+ Pirates of the Caribbean: Dead Men Tell No Tales       |            2017
+ Pirates of the Caribbean: On Stranger Tides            |            2011
+ Pirates of the Caribbean: Tales of the Code: Wedlocked |            2011
+ Pirates of the Caribbean: The Curse of the Black Pearl |            2003
+ Pirates of the Caribbean: The Young Sparrow            |            2016
+(8 rows)
+
+Time: 161,523 ms
+
+-- b)
+select count(*)
+from movie
+where production_year = 2004
+  and kind = 'movie';
+
+ count 
+-------
+ 14143
+(1 row)
+
+Time: 120,395 ms
+
+-- c)
+select title
+from casting
+         join
+     movie on casting.movie_id = movie.id
+         join person on casting.person_id = person.id
+where person.name = 'Mikkelsen, Mads'
+  and movie.kind = 'video game';
+
+       title       
+-------------------
+ Quantum of Solace
+(1 row)
+
+Time: 2,050 ms
+
+-- d)
+select distinct role_type
+from casting
+         join person
+              on casting.person_id = person.id
+where person.name = 'Bacon, Kevin';
+
+    role_type    
+-----------------
+ actor
+ cinematographer
+ director
+ editor
+ producer
+ writer
+(6 rows)
+
+Time: 0,719 ms
+
+-- e)
+select role_type, count(*)
+from casting
+group by role_type
+order by count DESC;
+
+      role_type      |  count   
+---------------------+----------
+ actor               | 16622527
+ actress             |  9906721
+ miscellaneous crew  |  6170099
+ producer            |  5936394
+ writer              |  3799109
+ director            |  2353225
+ editor              |  1599479
+ cinematographer     |  1234113
+ composer            |  1055730
+ production designer |   421641
+ costume designer    |   363650
+(11 rows)
+
+Time: 3702,622 ms (00:03,703)
+
+-- f)
+select title
+from movie
+         join casting c on movie.id = c.movie_id
+         join person p on c.person_id = p.id
+where name = 'Scott, Ridley'
+  and role_type = 'director'
+  and production_year in (2004, 2006, 2008, 2010);
+
+    title     
+--------------
+ A Good Year
+ Body of Lies
+ Robin Hood
+(3 rows)
+
+Time: 1,231 ms
+
+-- g.
+select max(actor_count)
+from (select count(person_id) as actor_count
+      from casting
+      where role_type = 'actor'
+      group by movie_id) movie_casting;
+
+ max 
+-----
+ 943
+(1 row)
+
+Time: 6897,148 ms (00:06,897)
+
+-- h)
+select count(distinct person_id)
+from (select movie_id as mid, person_id as pid
+      from casting
+               join person p on casting.person_id = p.id
+      where name = 'Bacon, Kevin'
+        and casting.role_type = 'actor'
+      group by movie_id, person_id) kb_movies
+         join casting c on c.movie_id = mid
+where role_type = 'actor'
+  and person_id != pid;
+
+ count 
+-------
+  5721
+(1 row)
+
+Time: 103,771 ms
+
+-- i)
+select title
+from movie_keyword
+         join keyword k on movie_keyword.keyword_id = k.id
+         join movie m on movie_keyword.movie_id = m.id
+where k.keyword = 'elephant-fears-mouse';
+
+               title                
+------------------------------------
+ Shooting Fish in a Barrel
+ The Two Mrs. Nahasapeemapetilons
+ Acrobatty Bunny
+ Dumbo
+ Goliath II
+ Krazy Kat - Bugologist
+ The Adventures of Baron Munchausen
+ The Mite Makes Right
+ Tweety's Circus
+ Unnatural History
+ Woodman, Spare That Tree
+(11 rows)
+
+Time: 1,360 ms
+
+-- j)
+select title
+from movie_keyword
+         join keyword k on movie_keyword.keyword_id = k.id
+         join movie m on movie_keyword.movie_id = m.id
+where k.keyword = 'dancing'
+intersect
+select title
+from movie_keyword
+         join keyword k on movie_keyword.keyword_id = k.id
+         join movie m on movie_keyword.movie_id = m.id
+where k.keyword = 'elephant-fears-mouse';
+
+               title                
+------------------------------------
+ The Adventures of Baron Munchausen
+ Acrobatty Bunny
+(2 rows)
+
+Time: 100,183 ms
+
+-- k)
+select title, production_year
+from movie_company
+         join company c on movie_company.company_id = c.id
+         join movie m on movie_company.movie_id = m.id
+where c.name = 'Paramount'
+  and c.country_code = '[se]'
+  and production_year > 2004;
+
+     title      | production_year 
+----------------+-----------------
+ Choke          |            2008
+ Dreamgirls     |            2006
+ Hotelliggaren  |            2005
+ Hustle & Flow  |            2005
+ Madagascar     |            2005
+ Over the Hedge |            2006
+ Stardust       |            2007
+(7 rows)
+
+Time: 1,577 ms
+
+-- l)
+select title
+from movie
+         join casting c on movie.id = c.movie_id
+         join role r on c.role_id = r.id
+where r.name = 'The Singing Kid';
+
+ title  
+--------
+ Broken
+(1 row)
+
+Time: 0,838 ms
+
+-- m)
+select p.name, m.title
+from person p
+         join casting c on p.id = c.person_id
+         join role r on c.role_id = r.id
+         join movie m on c.movie_id = m.id
+where r.name = 'Bilbo'
+  and m.title like '%Smaug%';
+  
+      name       |                     title                     
+-----------------+-----------------------------------------------
+ Baxter, Daniel  | How the Desolation of Smaug Should Have Ended
+ Freeman, Martin | The Hobbit: The Desolation of Smaug
+(2 rows)
+
+Time: 1,251 ms
