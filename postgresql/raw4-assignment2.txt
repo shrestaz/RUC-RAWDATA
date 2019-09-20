@@ -1,0 +1,433 @@
+-- GROUP: raw4, MEMBERS: Ozge Yasayan, Shushma Devi Gurung, Ivan Spajic, Manish Shrestha,
+
+\timing
+Timing is on.
+
+
+-- a)
+DROP FUNCTION IF EXISTS title_count;
+DROP FUNCTION
+Time: 5.761 ms
+CREATE FUNCTION title_count(actor_name TEXT)
+    RETURNS INT AS
+$$
+DECLARE
+    kevin_bacon_count INTEGER;
+BEGIN
+    SELECT COUNT
+               (DISTINCT movie_id)
+    INTO kevin_bacon_count
+    FROM casting AS c,
+         person AS p,
+         movie AS m
+    WHERE c.person_id = p.ID
+      AND c.movie_id = m.ID
+      AND m.kind = 'movie'
+      AND c.role_type = 'actor'
+      AND p.NAME LIKE actor_name;
+    RETURN kevin_bacon_count;
+
+END;
+$$ LANGUAGE plpgsql;
+CREATE FUNCTION
+Time: 2.361 ms
+
+SELECT title_count('Bacon, Kevin');
+ title_count 
+-------------
+          90
+(1 row)
+
+Time: 4.613 ms
+
+
+-- b)
+DROP FUNCTION IF EXISTS title_count;
+DROP FUNCTION
+Time: 1.318 ms
+CREATE FUNCTION title_count(actor_name TEXT, movie_kind TEXT, casting_role_type TEXT)
+    RETURNS INT AS
+$$
+DECLARE
+    kevin_bacon_count INTEGER;
+BEGIN
+    SELECT COUNT(DISTINCT movie_id)
+    INTO kevin_bacon_count
+    FROM casting AS c,
+         person AS p,
+         movie AS m
+    WHERE c.person_id = p.ID
+      AND c.movie_id = m.ID
+      AND m.kind = movie_kind
+      AND c.role_type = casting_role_type
+      AND p.NAME LIKE actor_name;
+    RETURN kevin_bacon_count;
+
+END;
+$$ LANGUAGE plpgsql;
+CREATE FUNCTION
+Time: 5.593 ms
+
+SELECT title_count('Bacon, Kevin', 'episode', 'actor');
+ title_count 
+-------------
+         241
+(1 row)
+
+Time: 1.156 ms
+
+
+-- c)
+DROP FUNCTION IF EXISTS title_count;
+DROP FUNCTION
+Time: 0.929 ms
+CREATE FUNCTION title_count(actor_name TEXT, movie_kind TEXT = 'movie', casting_role_type TEXT = 'actor')
+    RETURNS INT AS
+$$
+DECLARE
+    kevin_bacon_count INTEGER;
+BEGIN
+    SELECT COUNT(DISTINCT movie_id)
+    INTO kevin_bacon_count
+    FROM casting AS c,
+         person AS p,
+         movie AS m
+    WHERE c.person_id = p.ID
+      AND c.movie_id = m.ID
+      AND m.kind = movie_kind
+      AND c.role_type = casting_role_type
+      AND p.NAME LIKE actor_name;
+    RETURN kevin_bacon_count;
+
+END;
+$$ LANGUAGE plpgsql;
+CREATE FUNCTION
+Time: 0.828 ms
+
+SELECT title_count('Bacon, Kevin');
+ title_count 
+-------------
+          90
+(1 row)
+
+Time: 1.040 ms
+
+
+-- d)
+DROP FUNCTION IF EXISTS movies;
+DROP FUNCTION
+Time: 0.900 ms
+CREATE FUNCTION movies(actor_name TEXT)
+    RETURNS TABLE
+            (
+                movie_production_year INT,
+                movie_title           TEXT
+            )
+AS
+$$
+BEGIN
+    RETURN query SELECT m.production_year, m.title
+                 FROM movie AS m
+                          JOIN casting AS c ON m.ID = c.movie_id
+                          JOIN person AS p ON c.person_id = p.ID
+                 WHERE p.name LIKE actor_name
+                   AND m.kind = 'movie';
+
+END;
+$$ LANGUAGE plpgsql;
+CREATE FUNCTION
+Time: 0.821 ms
+
+SELECT movies('Fairlie, Ann');
+           movies            
+-----------------------------
+ (1992,Chaplin)
+ (1998,"Dead Man on Campus")
+ (1997,"St. Patrick's Day")
+ (1993,"Street Knight")
+(4 rows)
+
+Time: 0.543 ms
+
+
+-- e)
+DROP FUNCTION IF EXISTS match_title;
+DROP FUNCTION
+Time: 1.071 ms
+CREATE FUNCTION match_title(w TEXT)
+    RETURNS TABLE
+            (
+                movie_production_year INT,
+                movie_title           TEXT
+            )
+AS
+$$
+BEGIN
+    RETURN query
+        SELECT production_year,
+               title
+        FROM movie
+        WHERE kind = 'movie'
+          AND title LIKE '%' || w || '%'
+          AND production_year IS NOT NULL
+        ORDER BY production_year DESC
+        LIMIT 10;
+END;
+$$ LANGUAGE plpgsql;
+CREATE FUNCTION
+Time: 0.886 ms
+
+SELECT *
+FROM match_title('Wonderful');
+ movie_production_year |                        movie_title                         
+-----------------------+------------------------------------------------------------
+                  2018 | Ebbakanessa & the Wonderful Wilds of the Ancient Lost Isle
+                  2016 | Something Wicked Something Wonderful
+                  2016 | Everything's Just Wonderful
+                  2015 | The Wonderful Flight
+                  2015 | It's a Wonderful Day
+                  2015 | The Start of Something Wonderful
+                  2015 | It's a Wonderful Lumber Baron's Christmas
+                  2015 | A Wonderful Cloud
+                  2015 | I Feel Wonderful
+                  2015 | The Wonderful Wish Granting Cell Phone
+(10 rows)
+
+Time: 474.776 ms
+
+
+-- f)
+DROP FUNCTION IF EXISTS collect_role_types;
+DROP FUNCTION
+Time: 2.289 ms
+CREATE FUNCTION collect_role_types(person_name TEXT)
+    RETURNS TEXT AS
+$$
+DECLARE
+    role_types_result     TEXT DEFAULT '';
+    role_types_collection RECORD;
+    query_cursor CURSOR ( person_name TEXT ) FOR
+        SELECT DISTINCT role_type
+        FROM casting,
+             person
+        WHERE casting.person_id = person.ID
+          AND NAME LIKE person_name;
+BEGIN
+    -- Open the cursor
+    OPEN query_cursor ( person_name );
+    LOOP
+        -- Fetch row into the RECORD role_types_collection
+        FETCH query_cursor INTO role_types_collection;
+        -- Exit when no more row to fetch
+        EXIT
+            WHEN NOT FOUND;
+
+        -- Build the output
+        role_types_result := role_types_result || ',' || role_types_collection.role_type;
+        -- Trim the leading ','
+        role_types_result = trim(LEADING ',' FROM role_types_result);
+
+    END LOOP;
+    -- Close the cursor
+    CLOSE query_cursor;
+    RETURN role_types_result;
+END;
+$$ LANGUAGE plpgsql;
+CREATE FUNCTION
+Time: 1.012 ms
+
+SELECT collect_role_types('Bacon, Kevin');
+                            collect_role_types                             
+---------------------------------------------------------------------------
+ actor,cinematographer,director,editor,producer,production designer,writer
+(1 row)
+
+Time: 0.787 ms
+
+SELECT NAME, collect_role_types(NAME)
+FROM person
+WHERE NAME LIKE 'De Niro, R%';
+       name       |   collect_role_types    
+------------------+-------------------------
+ De Niro, Raphael | actor,producer
+ De Niro, Robert  | actor,director,producer
+ De Niro, Rocco   | actor
+(3 rows)
+
+Time: 2293.352 ms (00:02.293)
+
+
+-- g)
+DROP FUNCTION IF EXISTS collect_role_types;
+DROP FUNCTION
+Time: 2.631 ms
+CREATE FUNCTION collect_role_types(person_name TEXT)
+    RETURNS TEXT AS
+$$
+DECLARE
+    role_types_result     text DEFAULT '';
+    role_types_collection RECORD;
+BEGIN
+    FOR role_types_collection IN
+        SELECT DISTINCT role_type
+        FROM casting,
+             person
+        WHERE casting.person_id = person.ID
+          AND NAME LIKE person_name
+        LOOP
+            role_types_result := role_types_result || ', ' || role_types_collection.role_type;
+            role_types_result = trim(LEADING ', ' FROM role_types_result);
+        END LOOP;
+    RETURN role_types_result;
+END;
+$$ LANGUAGE plpgsql;
+CREATE FUNCTION
+Time: 0.946 ms
+
+SELECT collect_role_types('Bacon, Kevin');
+                               collect_role_types                                
+---------------------------------------------------------------------------------
+ actor, cinematographer, director, editor, producer, production designer, writer
+(1 row)
+
+Time: 0.666 ms
+
+SELECT NAME, collect_role_types(NAME)
+FROM person
+WHERE NAME LIKE 'De Niro, R%';
+       name       |    collect_role_types     
+------------------+---------------------------
+ De Niro, Raphael | actor, producer
+ De Niro, Robert  | actor, director, producer
+ De Niro, Rocco   | actor
+(3 rows)
+
+Time: 2288.370 ms (00:02.288)
+
+
+-- h)
+
+-- Reset table casting by removing the new roles added by previous rubn for the purpose of running the script multiple times
+DELETE
+FROM casting
+WHERE ID IN (49502700, 49502701);
+DELETE 2
+Time: 3.291 ms
+
+-- Drop the function from g) if exists, refactor it to take actor_id as argument
+DROP FUNCTION IF EXISTS collect_role_types;
+DROP FUNCTION
+Time: 1.214 ms
+
+-- Create function which returns all the roles of a given person by its id
+CREATE FUNCTION collect_role_types(actor_id int)
+    RETURNS TEXT AS
+$$
+DECLARE
+    role_types_result     text DEFAULT '';
+    role_types_collection RECORD;
+BEGIN
+    FOR role_types_collection IN
+        SELECT DISTINCT role_type
+        FROM casting,
+             person
+        WHERE casting.person_id = person.ID
+          AND person.id = actor_id
+        LOOP
+            role_types_result := role_types_result || ', ' || role_types_collection.role_type;
+            role_types_result = trim(LEADING ', ' FROM role_types_result);
+        END LOOP;
+    RETURN role_types_result;
+END;
+$$ LANGUAGE plpgsql;
+CREATE FUNCTION
+Time: 1.313 ms
+
+-- Remove role_types from person if exists; for running the script multiple times
+ALTER TABLE person
+    drop column if exists role_types;
+ALTER TABLE
+Time: 1.523 ms
+
+-- Add column role_types on person as required by the question
+ALTER TABLE person
+    ADD role_types TEXT;
+ALTER TABLE
+Time: 1.257 ms
+
+-- Update person table with their role_types only for persons with ids 1372139 and 103491
+UPDATE person
+SET role_types = role_types_collection.collect_role_types
+FROM (SELECT ID, NAME, collect_role_types(ID)
+      FROM person
+      WHERE ID IN (103491, 1372139)) role_types_collection
+WHERE person.ID = role_types_collection.ID;
+UPDATE 2
+Time: 2.097 ms
+
+-- Drop trigger if exists from previous run
+DROP TRIGGER IF EXISTS update_role_types ON person;
+DROP TRIGGER
+Time: 0.268 ms
+
+-- Drop function if exists from previous run
+DROP FUNCTION IF EXISTS update_redundant_data CASCADE;
+DROP FUNCTION
+Time: 0.948 ms
+
+-- Create trigger
+CREATE FUNCTION update_redundant_data()
+    RETURNS TRIGGER AS
+$$
+BEGIN
+    UPDATE person
+    SET role_types = role_types || ', ' || NEW.role_type
+    WHERE person.ID = NEW.person_id;
+    RETURN NULL;
+END
+$$ LANGUAGE plpgsql;
+CREATE FUNCTION
+Time: 0.799 ms
+
+-- Define when to execute trigger
+CREATE TRIGGER update_role_types
+    AFTER INSERT
+    ON casting
+    FOR EACH ROW
+EXECUTE PROCEDURE update_redundant_data();
+CREATE TRIGGER
+Time: 0.871 ms
+
+-- Execute test queries from the question
+SELECT NAME, role_types
+FROM person
+WHERE ID IN (1372139, 103491);
+      name       |            role_types             
+-----------------+-----------------------------------
+ Bacon, Kevin    | director, producer, actor, writer
+ Mikkelsen, Mads | actor
+(2 rows)
+
+Time: 0.121 ms
+
+INSERT INTO casting (ID, person_id, movie_id, role_type)
+VALUES (49502700, 1372139, 2440185, 'director');
+INSERT 0 1
+Time: 1.411 ms
+
+INSERT INTO casting (ID, person_id, movie_id, role_type)
+VALUES (49502701, 103491, 2400814, 'production designer');
+INSERT 0 1
+Time: 0.794 ms
+
+SELECT NAME,
+       role_types
+FROM person
+WHERE ID IN (1372139, 103491);
+      name       |                       role_types                       
+-----------------+--------------------------------------------------------
+ Bacon, Kevin    | director, producer, actor, writer, production designer
+ Mikkelsen, Mads | actor, director
+(2 rows)
+
+Time: 0.092 ms
