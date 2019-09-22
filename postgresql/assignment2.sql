@@ -159,10 +159,9 @@ BEGIN
 
         -- Build the output
         role_types_result := role_types_result || ',' || role_types_collection.role_type;
-        -- Trim the leading ','
-        role_types_result = trim(LEADING ',' FROM role_types_result);
-
     END LOOP;
+    -- Trim the leading ','
+    role_types_result = trim(LEADING ',' FROM role_types_result);
     -- Close the cursor
     CLOSE query_cursor;
     RETURN role_types_result;
@@ -193,8 +192,8 @@ BEGIN
           AND NAME LIKE person_name
         LOOP
             role_types_result := role_types_result || ', ' || role_types_collection.role_type;
-            role_types_result = trim(LEADING ', ' FROM role_types_result);
         END LOOP;
+    role_types_result = trim(LEADING ', ' FROM role_types_result);
     RETURN role_types_result;
 END;
 $$ LANGUAGE plpgsql;
@@ -232,8 +231,8 @@ BEGIN
           AND person.id = actor_id
         LOOP
             role_types_result := role_types_result || ', ' || role_types_collection.role_type;
-            role_types_result = trim(LEADING ', ' FROM role_types_result);
         END LOOP;
+    role_types_result = trim(LEADING ', ' FROM role_types_result);
     RETURN role_types_result;
 END;
 $$ LANGUAGE plpgsql;
@@ -290,7 +289,6 @@ VALUES (49502700, 1372139, 2440185, 'director');
 INSERT INTO casting (ID, person_id, movie_id, role_type)
 VALUES (49502701, 103491, 2400814, 'production designer');
 
-SELECT NAME,
-       role_types
+SELECT NAME, role_types
 FROM person
 WHERE ID IN (1372139, 103491);

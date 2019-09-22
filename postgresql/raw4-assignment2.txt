@@ -7,7 +7,7 @@ Timing is on.
 -- a)
 DROP FUNCTION IF EXISTS title_count;
 DROP FUNCTION
-Time: 5.761 ms
+Time: 5.415 ms
 CREATE FUNCTION title_count(actor_name TEXT)
     RETURNS INT AS
 $$
@@ -30,7 +30,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 CREATE FUNCTION
-Time: 2.361 ms
+Time: 2.488 ms
 
 SELECT title_count('Bacon, Kevin');
  title_count 
@@ -38,13 +38,13 @@ SELECT title_count('Bacon, Kevin');
           90
 (1 row)
 
-Time: 4.613 ms
+Time: 124.312 ms
 
 
 -- b)
 DROP FUNCTION IF EXISTS title_count;
 DROP FUNCTION
-Time: 1.318 ms
+Time: 1.300 ms
 CREATE FUNCTION title_count(actor_name TEXT, movie_kind TEXT, casting_role_type TEXT)
     RETURNS INT AS
 $$
@@ -66,7 +66,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 CREATE FUNCTION
-Time: 5.593 ms
+Time: 0.957 ms
 
 SELECT title_count('Bacon, Kevin', 'episode', 'actor');
  title_count 
@@ -74,13 +74,13 @@ SELECT title_count('Bacon, Kevin', 'episode', 'actor');
          241
 (1 row)
 
-Time: 1.156 ms
+Time: 1.495 ms
 
 
 -- c)
 DROP FUNCTION IF EXISTS title_count;
 DROP FUNCTION
-Time: 0.929 ms
+Time: 1.079 ms
 CREATE FUNCTION title_count(actor_name TEXT, movie_kind TEXT = 'movie', casting_role_type TEXT = 'actor')
     RETURNS INT AS
 $$
@@ -102,7 +102,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 CREATE FUNCTION
-Time: 0.828 ms
+Time: 1.497 ms
 
 SELECT title_count('Bacon, Kevin');
  title_count 
@@ -110,13 +110,13 @@ SELECT title_count('Bacon, Kevin');
           90
 (1 row)
 
-Time: 1.040 ms
+Time: 1.054 ms
 
 
 -- d)
 DROP FUNCTION IF EXISTS movies;
 DROP FUNCTION
-Time: 0.900 ms
+Time: 1.262 ms
 CREATE FUNCTION movies(actor_name TEXT)
     RETURNS TABLE
             (
@@ -136,7 +136,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 CREATE FUNCTION
-Time: 0.821 ms
+Time: 1.480 ms
 
 SELECT movies('Fairlie, Ann');
            movies            
@@ -147,13 +147,13 @@ SELECT movies('Fairlie, Ann');
  (1993,"Street Knight")
 (4 rows)
 
-Time: 0.543 ms
+Time: 6.097 ms
 
 
 -- e)
 DROP FUNCTION IF EXISTS match_title;
 DROP FUNCTION
-Time: 1.071 ms
+Time: 1.401 ms
 CREATE FUNCTION match_title(w TEXT)
     RETURNS TABLE
             (
@@ -175,7 +175,7 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 CREATE FUNCTION
-Time: 0.886 ms
+Time: 0.780 ms
 
 SELECT *
 FROM match_title('Wonderful');
@@ -193,13 +193,13 @@ FROM match_title('Wonderful');
                   2015 | The Wonderful Wish Granting Cell Phone
 (10 rows)
 
-Time: 474.776 ms
+Time: 542.475 ms
 
 
 -- f)
 DROP FUNCTION IF EXISTS collect_role_types;
 DROP FUNCTION
-Time: 2.289 ms
+Time: 1.360 ms
 CREATE FUNCTION collect_role_types(person_name TEXT)
     RETURNS TEXT AS
 $$
@@ -224,17 +224,16 @@ BEGIN
 
         -- Build the output
         role_types_result := role_types_result || ',' || role_types_collection.role_type;
-        -- Trim the leading ','
-        role_types_result = trim(LEADING ',' FROM role_types_result);
-
     END LOOP;
+    -- Trim the leading ','
+    role_types_result = trim(LEADING ',' FROM role_types_result);
     -- Close the cursor
     CLOSE query_cursor;
     RETURN role_types_result;
 END;
 $$ LANGUAGE plpgsql;
 CREATE FUNCTION
-Time: 1.012 ms
+Time: 0.942 ms
 
 SELECT collect_role_types('Bacon, Kevin');
                             collect_role_types                             
@@ -242,7 +241,7 @@ SELECT collect_role_types('Bacon, Kevin');
  actor,cinematographer,director,editor,producer,production designer,writer
 (1 row)
 
-Time: 0.787 ms
+Time: 0.784 ms
 
 SELECT NAME, collect_role_types(NAME)
 FROM person
@@ -254,13 +253,13 @@ WHERE NAME LIKE 'De Niro, R%';
  De Niro, Rocco   | actor
 (3 rows)
 
-Time: 2293.352 ms (00:02.293)
+Time: 2287.296 ms (00:02.287)
 
 
 -- g)
 DROP FUNCTION IF EXISTS collect_role_types;
 DROP FUNCTION
-Time: 2.631 ms
+Time: 2.689 ms
 CREATE FUNCTION collect_role_types(person_name TEXT)
     RETURNS TEXT AS
 $$
@@ -276,13 +275,13 @@ BEGIN
           AND NAME LIKE person_name
         LOOP
             role_types_result := role_types_result || ', ' || role_types_collection.role_type;
-            role_types_result = trim(LEADING ', ' FROM role_types_result);
         END LOOP;
+    role_types_result = trim(LEADING ', ' FROM role_types_result);
     RETURN role_types_result;
 END;
 $$ LANGUAGE plpgsql;
 CREATE FUNCTION
-Time: 0.946 ms
+Time: 1.168 ms
 
 SELECT collect_role_types('Bacon, Kevin');
                                collect_role_types                                
@@ -290,7 +289,7 @@ SELECT collect_role_types('Bacon, Kevin');
  actor, cinematographer, director, editor, producer, production designer, writer
 (1 row)
 
-Time: 0.666 ms
+Time: 0.593 ms
 
 SELECT NAME, collect_role_types(NAME)
 FROM person
@@ -302,7 +301,7 @@ WHERE NAME LIKE 'De Niro, R%';
  De Niro, Rocco   | actor
 (3 rows)
 
-Time: 2288.370 ms (00:02.288)
+Time: 2287.404 ms (00:02.287)
 
 
 -- h)
@@ -312,12 +311,12 @@ DELETE
 FROM casting
 WHERE ID IN (49502700, 49502701);
 DELETE 2
-Time: 3.291 ms
+Time: 1.521 ms
 
 -- Drop the function from g) if exists, refactor it to take actor_id as argument
 DROP FUNCTION IF EXISTS collect_role_types;
 DROP FUNCTION
-Time: 1.214 ms
+Time: 0.819 ms
 
 -- Create function which returns all the roles of a given person by its id
 CREATE FUNCTION collect_role_types(actor_id int)
@@ -335,25 +334,25 @@ BEGIN
           AND person.id = actor_id
         LOOP
             role_types_result := role_types_result || ', ' || role_types_collection.role_type;
-            role_types_result = trim(LEADING ', ' FROM role_types_result);
         END LOOP;
+    role_types_result = trim(LEADING ', ' FROM role_types_result);
     RETURN role_types_result;
 END;
 $$ LANGUAGE plpgsql;
 CREATE FUNCTION
-Time: 1.313 ms
+Time: 0.901 ms
 
 -- Remove role_types from person if exists; for running the script multiple times
 ALTER TABLE person
     drop column if exists role_types;
 ALTER TABLE
-Time: 1.523 ms
+Time: 0.984 ms
 
 -- Add column role_types on person as required by the question
 ALTER TABLE person
     ADD role_types TEXT;
 ALTER TABLE
-Time: 1.257 ms
+Time: 0.954 ms
 
 -- Update person table with their role_types only for persons with ids 1372139 and 103491
 UPDATE person
@@ -363,17 +362,17 @@ FROM (SELECT ID, NAME, collect_role_types(ID)
       WHERE ID IN (103491, 1372139)) role_types_collection
 WHERE person.ID = role_types_collection.ID;
 UPDATE 2
-Time: 2.097 ms
+Time: 1.766 ms
 
 -- Drop trigger if exists from previous run
 DROP TRIGGER IF EXISTS update_role_types ON person;
 DROP TRIGGER
-Time: 0.268 ms
+Time: 0.297 ms
 
 -- Drop function if exists from previous run
 DROP FUNCTION IF EXISTS update_redundant_data CASCADE;
 DROP FUNCTION
-Time: 0.948 ms
+Time: 0.936 ms
 
 -- Create trigger
 CREATE FUNCTION update_redundant_data()
@@ -387,7 +386,7 @@ BEGIN
 END
 $$ LANGUAGE plpgsql;
 CREATE FUNCTION
-Time: 0.799 ms
+Time: 0.853 ms
 
 -- Define when to execute trigger
 CREATE TRIGGER update_role_types
@@ -396,7 +395,7 @@ CREATE TRIGGER update_role_types
     FOR EACH ROW
 EXECUTE PROCEDURE update_redundant_data();
 CREATE TRIGGER
-Time: 0.871 ms
+Time: 0.887 ms
 
 -- Execute test queries from the question
 SELECT NAME, role_types
@@ -408,20 +407,19 @@ WHERE ID IN (1372139, 103491);
  Mikkelsen, Mads | actor
 (2 rows)
 
-Time: 0.121 ms
+Time: 0.112 ms
 
 INSERT INTO casting (ID, person_id, movie_id, role_type)
 VALUES (49502700, 1372139, 2440185, 'director');
 INSERT 0 1
-Time: 1.411 ms
+Time: 1.395 ms
 
 INSERT INTO casting (ID, person_id, movie_id, role_type)
 VALUES (49502701, 103491, 2400814, 'production designer');
 INSERT 0 1
-Time: 0.794 ms
+Time: 0.850 ms
 
-SELECT NAME,
-       role_types
+SELECT NAME, role_types
 FROM person
 WHERE ID IN (1372139, 103491);
       name       |                       role_types                       
@@ -430,4 +428,4 @@ WHERE ID IN (1372139, 103491);
  Mikkelsen, Mads | actor, director
 (2 rows)
 
-Time: 0.092 ms
+Time: 0.098 ms
