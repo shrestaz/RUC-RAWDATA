@@ -31,7 +31,6 @@ namespace stackoverflow_crash_course
                     var questinsSplitBySpace = values[1].Split(' ');
                     System.Console.WriteLine("The id " + values[0] + " has the question containing words of lenght " + questinsSplitBySpace.Length);
 
-
                     // Answer for 1.c
                     var csv = new StringBuilder();
                     string newLine;

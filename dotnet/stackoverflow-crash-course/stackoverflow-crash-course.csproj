@@ -5,5 +5,4 @@
     <TargetFramework>netcoreapp3.0</TargetFramework>
     <RootNamespace>stackoverflow_crash_course</RootNamespace>
   </PropertyGroup>
-
 </Project>
