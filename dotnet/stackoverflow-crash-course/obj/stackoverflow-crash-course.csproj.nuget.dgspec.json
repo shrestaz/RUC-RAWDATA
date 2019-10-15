@@ -1,32 +1,31 @@
 {
   "format": 1,
   "restore": {
-    "/home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/stackoverflow-crash-course.csproj": {}
+    "C:\\Users\\Manish Shrestha\\Projects\\RUC-RAWDATA\\dotnet\\stackoverflow-crash-course\\stackoverflow-crash-course.csproj": {}
   },
   "projects": {
-    "/home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/stackoverflow-crash-course.csproj": {
+    "C:\\Users\\Manish Shrestha\\Projects\\RUC-RAWDATA\\dotnet\\stackoverflow-crash-course\\stackoverflow-crash-course.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/stackoverflow-crash-course.csproj",
+        "projectUniqueName": "C:\\Users\\Manish Shrestha\\Projects\\RUC-RAWDATA\\dotnet\\stackoverflow-crash-course\\stackoverflow-crash-course.csproj",
         "projectName": "stackoverflow-crash-course",
-        "projectPath": "/home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/stackoverflow-crash-course.csproj",
-        "packagesPath": "/home/thatonedroid/.nuget/packages/",
-        "outputPath": "/home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/obj/",
+        "projectPath": "C:\\Users\\Manish Shrestha\\Projects\\RUC-RAWDATA\\dotnet\\stackoverflow-crash-course\\stackoverflow-crash-course.csproj",
+        "packagesPath": "C:\\Users\\Manish Shrestha\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Manish Shrestha\\Projects\\RUC-RAWDATA\\dotnet\\stackoverflow-crash-course\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "/usr/share/dotnet/sdk/NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "/home/thatonedroid/.nuget/NuGet/NuGet.Config"
+          "C:\\Users\\Manish Shrestha\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp2.2"
+          "netcoreapp3.0"
         ],
         "sources": {
+          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp2.2": {
+          "netcoreapp3.0": {
             "projectReferences": {}
           }
         },
@@ -37,20 +36,23 @@
         }
       },
       "frameworks": {
-        "netcoreapp2.2": {
-          "dependencies": {
-            "Microsoft.NETCore.App": {
-              "suppressParent": "All",
-              "target": "Package",
-              "version": "[2.2.0, )",
-              "autoReferenced": true
-            }
-          },
+        "netcoreapp3.0": {
           "imports": [
-            "net461"
+            "net461",
+            "net462",
+            "net47",
+            "net471",
+            "net472",
+            "net48"
           ],
           "assetTargetFallback": true,
-          "warn": true
+          "warn": true,
+          "frameworkReferences": {
+            "Microsoft.NETCore.App": {
+              "privateAssets": "all"
+            }
+          },
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.0.100\\RuntimeIdentifierGraph.json"
         }
       }
     }

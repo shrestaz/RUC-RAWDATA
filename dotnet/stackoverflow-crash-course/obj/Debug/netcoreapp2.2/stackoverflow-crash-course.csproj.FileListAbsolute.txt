@@ -31,3 +31,13 @@
 /home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/obj/Debug/netcoreapp2.2/stackoverflow-crash-course.AssemblyInfo.cs
 /home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/obj/Debug/netcoreapp2.2/stackoverflow-crash-course.dll
 /home/thatonedroid/Projects/RAWDATA/dotnet/stackoverflow-crash-course/obj/Debug/netcoreapp2.2/stackoverflow-crash-course.pdb
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\stackoverflow-crash-course\bin\Debug\netcoreapp2.2\stackoverflow-crash-course.deps.json
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\stackoverflow-crash-course\bin\Debug\netcoreapp2.2\stackoverflow-crash-course.runtimeconfig.json
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\stackoverflow-crash-course\bin\Debug\netcoreapp2.2\stackoverflow-crash-course.runtimeconfig.dev.json
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\stackoverflow-crash-course\bin\Debug\netcoreapp2.2\stackoverflow-crash-course.dll
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\stackoverflow-crash-course\bin\Debug\netcoreapp2.2\stackoverflow-crash-course.pdb
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\stackoverflow-crash-course\obj\Debug\netcoreapp2.2\stackoverflow-crash-course.csprojAssemblyReference.cache
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\stackoverflow-crash-course\obj\Debug\netcoreapp2.2\stackoverflow-crash-course.AssemblyInfoInputs.cache
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\stackoverflow-crash-course\obj\Debug\netcoreapp2.2\stackoverflow-crash-course.AssemblyInfo.cs
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\stackoverflow-crash-course\obj\Debug\netcoreapp2.2\stackoverflow-crash-course.dll
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\stackoverflow-crash-course\obj\Debug\netcoreapp2.2\stackoverflow-crash-course.pdb
