@@ -1,4 +1,6 @@
-﻿namespace RDJTPServer
+﻿using System;
+
+namespace RDJTPServer
 {
     class Program
     {

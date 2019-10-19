@@ -1,8 +1,10 @@
-﻿using Newtonsoft.Json;
+﻿using System;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using Newtonsoft.Json.Linq;
 
 namespace RDJTPServer.Helpers
 {
@@ -42,6 +44,23 @@ namespace RDJTPServer.Helpers
             return JsonConvert.DeserializeObject<T>(element);
         }
 
+        public static string UnixTimestamp()
+        {
+            return DateTimeOffset.Now.ToUnixTimeSeconds().ToString();
+        }
+
+        public static bool IsValidJson(string json)
+        {
+            try
+            {
+                var token = JObject.Parse(json);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                return false;
+            }
+        }
     }
 
 }
