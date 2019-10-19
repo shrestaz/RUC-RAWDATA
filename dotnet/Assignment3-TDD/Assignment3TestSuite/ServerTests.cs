@@ -8,8 +8,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization;
 using Xunit;
 
-
-namespace Assignment3TestSuite
+namespace ServerTestSuite
 {
 
     public class Response
@@ -26,7 +25,7 @@ namespace Assignment3TestSuite
         public string Name { get; set; }
     }
 
-    public class Assignment3Tests
+    public class ServerTests
     {
         private const int Port = 5000;
 
@@ -55,7 +54,7 @@ namespace Assignment3TestSuite
 
             var response = client.ReadResponse();
 
-            Assert.Contains("missing method", response.Status.ToLower());
+            Assert.True(response.Status.ToLower().Contains("missing method"));
         }
 
         [Fact]
