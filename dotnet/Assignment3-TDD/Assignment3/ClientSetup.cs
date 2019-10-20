@@ -16,8 +16,8 @@ namespace RDJTPServer
                 var response = validation.ValidateRequest(request);
                 if (response.Status.Contains("1"))
                 {
-                    Console.WriteLine("Everything OK");
-                    //response = HandleRequest(request);
+                    Console.WriteLine($"Response status was OK. {response.Status}");
+                    response = new HandleRequest().Respond(request);
                 }
                 var responseToSend = response.ToJson();
 

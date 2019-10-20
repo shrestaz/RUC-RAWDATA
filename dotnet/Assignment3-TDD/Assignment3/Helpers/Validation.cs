@@ -25,9 +25,7 @@ namespace RDJTPServer.Helpers
             var response = new Response();
             var errorResponse = new List<string>();
             var allowedMethods = new[] { "create", "read", "update", "delete", "echo", "testing" };
-            var pathPrefix = "/api/categories";
-            //var pathSplit = request.Path?.Split("/");
-
+            const string pathPrefix = "/api/categories";
 
             if (request.Method == null)
             {
@@ -50,7 +48,6 @@ namespace RDJTPServer.Helpers
                 }
                 if (request.Method == "echo")
                 {
-                    response.Body = request.Body;
                     response.Status = StatusCode.Ok;
                     return response;
                 }
@@ -99,11 +96,18 @@ namespace RDJTPServer.Helpers
                 switch (request.Method)
                 {
                     case "read":
-                        var isInt = int.TryParse(pathSplit[3], out _);
-                        response.Status = (isInt && !request.Path.StartsWith(pathPrefix)) ? StatusCode.Ok : StatusCode.BadRequest;
+                        if (pathSplit.Length > 3)
+                        {
+                            var isInt = int.TryParse(pathSplit[3], out _);
+                            response.Status = (isInt && request.Path.StartsWith(pathPrefix)) ? StatusCode.Ok : StatusCode.BadRequest;
+                        }
+                        else
+                        {
+                            response.Status = StatusCode.Ok;
+                        }
                         return response;
                     case "create":
-                        response.Status = (pathSplit[3] != null)
+                        response.Status = (pathSplit.Length > 3)
                             ? response.Status = StatusCode.BadRequest
                             : StatusCode.Ok;
                         return response;
@@ -120,15 +124,9 @@ namespace RDJTPServer.Helpers
                     default:
                         response.Status = StatusCode.BadRequest;
                         return response;
-
                 }
             }
 
-            //if (request.Method == "delete" && pathEndpoint != null && pathEndpoint.Length <= 2)
-            //{
-            //    response.Status = $"{StatusCode.BadRequest}";
-            //    return response;
-            //}
 
 
             return response;
