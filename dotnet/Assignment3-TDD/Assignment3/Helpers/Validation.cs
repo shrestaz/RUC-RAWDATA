@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
-using System.Net.Cache;
 
 namespace RDJTPServer.Helpers
 {
@@ -18,16 +18,6 @@ namespace RDJTPServer.Helpers
         public string Body { get; set; }
     }
 
-    public enum StatusCode
-    {
-        Ok = 1,
-        Created = 2,
-        Updated = 3,
-        BadRequest = 4,
-        NotFound = 5,
-        Error = 6
-    }
-
     public class Validation
     {
         public Response ValidateRequest(Request request)
@@ -35,6 +25,9 @@ namespace RDJTPServer.Helpers
             var response = new Response();
             var errorResponse = new List<string>();
             var allowedMethods = new[] { "create", "read", "update", "delete", "echo", "testing" };
+            var pathPrefix = "/api/categories";
+            //var pathSplit = request.Path?.Split("/");
+
 
             if (request.Method == null)
             {
@@ -42,14 +35,26 @@ namespace RDJTPServer.Helpers
                 response.Status = $"{StatusCode.BadRequest}: {string.Join(", ", errorResponse)}";
             }
 
-            if (!allowedMethods.Contains(request.Method))
+            if (request.Method != null && !allowedMethods.Contains(request.Method))
             {
                 errorResponse.Add("Illegal method request provided.");
                 response.Status = $"{StatusCode.BadRequest}: {string.Join(", ", errorResponse)}";
+                return response;
             }
 
-            if (!allowedMethods.Contains(request.Path))
+            if (request.Path == null)
             {
+                if (request.Method == "delete")
+                {
+                    response.Status = $"{StatusCode.BadRequest}";
+                }
+                if (request.Method == "echo")
+                {
+                    response.Body = request.Body;
+                    response.Status = StatusCode.Ok;
+                    return response;
+                }
+
                 errorResponse.Add("Missing resource in request header.");
                 response.Status = $"{StatusCode.BadRequest}: {string.Join(", ", errorResponse)}";
             }
@@ -60,44 +65,71 @@ namespace RDJTPServer.Helpers
                 response.Status = $"{StatusCode.BadRequest}: {string.Join(", ", errorResponse)}";
             }
 
-            // TODO: Research the following!!
             if (request.Date != null && request.Date != Utilities.UnixTimestamp())
             {
                 errorResponse.Add("Illegal date in request header.");
                 response.Status = $"{StatusCode.BadRequest}: {string.Join(", ", errorResponse)}";
+                return response;
             }
 
-            if (request.Body == null)
+            if (request.Method != "delete" && request.Method != "read" && request.Body == null)
             {
+                Console.WriteLine("Am I here");
                 errorResponse.Add("Missing body in header.");
                 response.Status = $"{StatusCode.BadRequest}: {string.Join(", ", errorResponse)}";
+                return response;
             }
 
-            if (request.Body == null)
-            {
-                errorResponse.Add("Missing body in header.");
-                response.Status = $"{StatusCode.BadRequest}: {string.Join(", ", errorResponse)}";
-            }
-
-            if (!Utilities.IsValidJson(request.Body))
+            if (request.Body != null && !Utilities.IsValidJson(request.Body))
             {
                 errorResponse.Add("Illegal body.");
                 response.Status = $"{StatusCode.BadRequest}: {string.Join(", ", errorResponse)}";
+                return response;
             }
 
-            // TODO: Fix the test!
-            if (request.Method != null && request.Method.Contains("echo"))
+            if (request.Path != null && !request.Path.StartsWith(pathPrefix))
             {
-                Console.WriteLine(request.Body);
-                response.Body = request.Body;
+                response.Status = StatusCode.BadRequest;
+                return response;
             }
 
-            var pathEndpoint = request.Path.Split("/")[2];
-            //if (pathEndpoint != "categories")
+            if (request.Path != null)
+            {
+                var pathSplit = request.Path.Split("/");    // Array looks like this: ["","api","categories"]
+                switch (request.Method)
+                {
+                    case "read":
+                        var isInt = int.TryParse(pathSplit[3], out _);
+                        response.Status = (isInt && !request.Path.StartsWith(pathPrefix)) ? StatusCode.Ok : StatusCode.BadRequest;
+                        return response;
+                    case "create":
+                        response.Status = (pathSplit[3] != null)
+                            ? response.Status = StatusCode.BadRequest
+                            : StatusCode.Ok;
+                        return response;
+                    case "update":
+                        response.Status = (pathSplit.Length <= 3)
+                            ? response.Status = StatusCode.BadRequest
+                            : StatusCode.Ok;
+                        return response;
+                    case "delete":
+                        response.Status = (pathSplit.Length <= 3)
+                            ? response.Status = StatusCode.BadRequest
+                            : StatusCode.Ok;
+                        return response;
+                    default:
+                        response.Status = StatusCode.BadRequest;
+                        return response;
+
+                }
+            }
+
+            //if (request.Method == "delete" && pathEndpoint != null && pathEndpoint.Length <= 2)
             //{
-            //    errorResponse.Add("Illegal body.");
-            //    response.Status = $"{StatusCode.BadRequest}: {string.Join(", ", errorResponse)}";
+            //    response.Status = $"{StatusCode.BadRequest}";
+            //    return response;
             //}
+
 
             return response;
 
