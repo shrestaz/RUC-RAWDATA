@@ -1,0 +1,11 @@
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\Assignment3\Assignment3Project\bin\Debug\netcoreapp3.0\Assignment3Project.exe
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\Assignment3\Assignment3Project\bin\Debug\netcoreapp3.0\Assignment3Project.deps.json
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\Assignment3\Assignment3Project\bin\Debug\netcoreapp3.0\Assignment3Project.runtimeconfig.json
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\Assignment3\Assignment3Project\bin\Debug\netcoreapp3.0\Assignment3Project.runtimeconfig.dev.json
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\Assignment3\Assignment3Project\bin\Debug\netcoreapp3.0\Assignment3Project.dll
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\Assignment3\Assignment3Project\bin\Debug\netcoreapp3.0\Assignment3Project.pdb
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\Assignment3\Assignment3Project\obj\Debug\netcoreapp3.0\Assignment3Project.csprojAssemblyReference.cache
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\Assignment3\Assignment3Project\obj\Debug\netcoreapp3.0\Assignment3Project.AssemblyInfoInputs.cache
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\Assignment3\Assignment3Project\obj\Debug\netcoreapp3.0\Assignment3Project.AssemblyInfo.cs
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\Assignment3\Assignment3Project\obj\Debug\netcoreapp3.0\Assignment3Project.dll
+C:\Users\Manish Shrestha\Projects\RUC-RAWDATA\dotnet\Assignment3\Assignment3Project\obj\Debug\netcoreapp3.0\Assignment3Project.pdb
