@@ -61,6 +61,14 @@ namespace RDJTPServer.Helpers
                 return false;
             }
         }
+
+        public static int IdFromPath(string path)
+        {
+
+            var hans = int.Parse(path.Split("/")[3]);
+            Console.WriteLine($"idfrompath: {hans}");
+            return hans;
+        }
     }
 
 }

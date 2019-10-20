@@ -1,0 +1,64 @@
+﻿using System;
+using System.Reflection;
+using System.Runtime.InteropServices.ComTypes;
+
+namespace RDJTPServer.Helpers
+{
+    public class HandleRequest
+    {
+        public Response Respond(Request request)
+        {
+            var response = new Response();
+            var dbOperations = new DbOperations();
+            InMemoryDb.Category result;
+            switch (request.Method)
+            {
+                case "read":
+                    if (request.Path.Split("/").Length == 3)
+                    {
+                        response.Body = dbOperations.GetAllCategories();
+                    }
+                    else
+                    {
+                        result = dbOperations.GetSpecificCategory(Utilities.IdFromPath(request.Path));
+                        if (result == null)
+                        {
+                            response.Status = StatusCode.NotFound;
+                            return response;
+                        }
+
+                        response.Body = result.ToJson();
+                    }
+                    response.Status = StatusCode.Ok;
+                    return response;
+                case "update":
+                    var updatedData = dbOperations.UpdateCategory(Utilities.IdFromPath(request.Path), request.Body);
+                    if (updatedData == null)
+                    {
+                        response.Status = StatusCode.NotFound;
+                        return response;
+                    }
+
+                    Console.WriteLine($"Body sent: {updatedData.ToJson()}");
+                    response.Body = updatedData.ToJson();
+                    response.Status = StatusCode.Updated;
+                    return response;
+                case "create":
+                    var createdCategory = dbOperations.CreateCategory(request.Body);
+                    response.Body = createdCategory.ToJson();
+                    response.Status = StatusCode.Created;
+                    return response;
+                case "delete":
+                    dbOperations.DeleteCategory(Utilities.IdFromPath(request.Path));
+                    response.Status = StatusCode.Ok;
+                    return response;
+                case "echo":
+                    response.Body = request.Body;
+                    response.Status = StatusCode.Ok;
+                    return response;
+                default:
+                    return response;
+            }
+        }
+    }
+}
