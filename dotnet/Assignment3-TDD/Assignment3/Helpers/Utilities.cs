@@ -19,7 +19,7 @@ namespace RDJTPServer.Helpers
         public static Request ReadRequest(this TcpClient client)
         {
             var stream = client.GetStream();
-            var resp = new byte[2048];
+            var resp = new byte[4096];
             using var memStream = new MemoryStream();
             var bytesRead = 0;
             do
@@ -65,9 +65,7 @@ namespace RDJTPServer.Helpers
         public static int IdFromPath(string path)
         {
 
-            var hans = int.Parse(path.Split("/")[3]);
-            Console.WriteLine($"idfrompath: {hans}");
-            return hans;
+            return int.Parse(path.Split("/")[3]);
         }
     }
 

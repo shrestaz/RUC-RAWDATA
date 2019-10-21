@@ -1,20 +1,18 @@
-﻿using System;
-using System.Linq;
-
-namespace RDJTPServer.Helpers
+﻿namespace RDJTPServer.Helpers
 {
     public class DbOperations
+
     {
         InMemoryDb db = new InMemoryDb();
+
         public string GetAllCategories()
         {
-            return db.categories.ToJson();
+            return db.Categories.ToJson();
         }
 
         public InMemoryDb.Category GetSpecificCategory(int id)
         {
-            var categoryInDb = db.categories.Find(v => v.Cid == id);
-
+            var categoryInDb = db.Categories.Find(v => v.Cid == id);
             return categoryInDb;
         }
 
@@ -33,7 +31,7 @@ namespace RDJTPServer.Helpers
         {
             var parsedCreateCategoryObject = createCategoryObject.FromJson<InMemoryDb.Category>();
             var nextAvailableId = 1;
-            foreach (var item in db.categories)
+            foreach (var item in db.Categories)
             {
                 if (nextAvailableId != item.Cid) break;
                 nextAvailableId++;
@@ -43,14 +41,19 @@ namespace RDJTPServer.Helpers
                 Cid = nextAvailableId,
                 Name = parsedCreateCategoryObject.Name
             };
-            db.categories.Add(categoryToCreate);
+            db.Categories.Add(categoryToCreate);
             return categoryToCreate;
         }
 
-        public void DeleteCategory(int idOfCategoryToDelete)
+        public bool DeleteCategory(int idOfCategoryToDelete)
         {
-            var categoryObjectToDelete = db.categories.Find(v => v.Cid == idOfCategoryToDelete);
-            db.categories.Remove(categoryObjectToDelete);
+            var categoryObjectToDelete = db.Categories.Find(v => v.Cid == idOfCategoryToDelete);
+            if (categoryObjectToDelete == null)
+            {
+                return false;
+            }
+            db.Categories.Remove(categoryObjectToDelete);
+            return true;
         }
 
     }

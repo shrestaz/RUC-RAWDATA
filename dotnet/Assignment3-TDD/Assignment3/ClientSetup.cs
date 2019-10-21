@@ -16,13 +16,12 @@ namespace RDJTPServer
                 var response = validation.ValidateRequest(request);
                 if (response.Status.Contains("1"))
                 {
-                    Console.WriteLine($"Response status was OK. {response.Status}");
+                    Console.WriteLine($"Response status was OK. Handling request.");
                     response = new HandleRequest().Respond(request);
                 }
                 var responseToSend = response.ToJson();
 
                 Console.WriteLine($"Response sent: {responseToSend}");
-
                 client.SendResponse(responseToSend);
             }
             catch (Exception e)
