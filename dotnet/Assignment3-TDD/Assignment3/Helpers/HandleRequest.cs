@@ -1,8 +1,4 @@
-﻿using System;
-using System.Reflection;
-using System.Runtime.InteropServices.ComTypes;
-
-namespace RDJTPServer.Helpers
+﻿namespace RDJTPServer.Helpers
 {
     public class HandleRequest
     {
@@ -26,11 +22,11 @@ namespace RDJTPServer.Helpers
                             response.Status = StatusCode.NotFound;
                             return response;
                         }
-
                         response.Body = result.ToJson();
                     }
                     response.Status = StatusCode.Ok;
                     return response;
+
                 case "update":
                     var updatedData = dbOperations.UpdateCategory(Utilities.IdFromPath(request.Path), request.Body);
                     if (updatedData == null)
@@ -38,24 +34,31 @@ namespace RDJTPServer.Helpers
                         response.Status = StatusCode.NotFound;
                         return response;
                     }
-
-                    Console.WriteLine($"Body sent: {updatedData.ToJson()}");
                     response.Body = updatedData.ToJson();
                     response.Status = StatusCode.Updated;
                     return response;
+
                 case "create":
                     var createdCategory = dbOperations.CreateCategory(request.Body);
                     response.Body = createdCategory.ToJson();
                     response.Status = StatusCode.Created;
                     return response;
+
                 case "delete":
-                    dbOperations.DeleteCategory(Utilities.IdFromPath(request.Path));
+                    var deleteOperation = dbOperations.DeleteCategory(Utilities.IdFromPath(request.Path));
+                    if (deleteOperation != true)
+                    {
+                        response.Status = StatusCode.NotFound;
+                        return response;
+                    }
                     response.Status = StatusCode.Ok;
                     return response;
+
                 case "echo":
                     response.Body = request.Body;
                     response.Status = StatusCode.Ok;
                     return response;
+
                 default:
                     return response;
             }

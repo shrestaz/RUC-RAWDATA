@@ -10,11 +10,11 @@ namespace RDJTPServer.Helpers
             public string Name;
         }
 
-        public List<Category> categories;
+        public List<Category> Categories;
 
         public InMemoryDb()
         {
-            categories = new List<Category>
+            Categories = new List<Category>
             {
                 new Category
                 {
@@ -34,4 +34,5 @@ namespace RDJTPServer.Helpers
             };
         }
     }
+
 }
