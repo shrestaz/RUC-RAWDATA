@@ -5,8 +5,6 @@ _Insert "I see this as an absolute win" gif here._
 
 Steps to reproduce: (Assuming you use Visual Studio)
 
-0. `git clone https://github.com/shrestaz/RUC-RAWDATA/tree/master/dotnet/Assignment3-TDD`
-
 1. `cd Assignment3-TDD`
 
 2. `cd Assignment3`
