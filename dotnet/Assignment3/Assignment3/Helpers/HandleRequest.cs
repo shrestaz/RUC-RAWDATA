@@ -2,13 +2,25 @@
 {
     public class HandleRequest
     {
+        private InMemoryDb db;
+        public HandleRequest(InMemoryDb inMemDb)
+        {
+            db = inMemDb;
+        }
+
         public Response Respond(Request request)
         {
             var response = new Response();
-            var dbOperations = new DbOperations();
+            var dbOperations = new DbOperations(db);
             InMemoryDb.Category result;
             switch (request.Method)
             {
+                case "create":
+                    var createdCategory = dbOperations.CreateCategory(request.Body);
+                    response.Body = createdCategory.ToJson();
+                    response.Status = StatusCode.Created;
+                    return response;
+
                 case "read":
                     if (request.Path.Split("/").Length == 3)
                     {
@@ -16,7 +28,7 @@
                     }
                     else
                     {
-                        result = dbOperations.GetSpecificCategory(Utilities.IdFromPath(request.Path));
+                        result = dbOperations.ReadCategory(Utilities.IdFromPath(request.Path));
                         if (result == null)
                         {
                             response.Status = StatusCode.NotFound;
@@ -36,12 +48,6 @@
                     }
                     response.Body = updatedData.ToJson();
                     response.Status = StatusCode.Updated;
-                    return response;
-
-                case "create":
-                    var createdCategory = dbOperations.CreateCategory(request.Body);
-                    response.Body = createdCategory.ToJson();
-                    response.Status = StatusCode.Created;
                     return response;
 
                 case "delete":

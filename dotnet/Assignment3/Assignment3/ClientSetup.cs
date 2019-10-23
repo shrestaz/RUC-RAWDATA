@@ -6,9 +6,17 @@ namespace RDJTPServer
 {
     public class ClientSetup
     {
+        private InMemoryDb db;
+
+        public ClientSetup(InMemoryDb inMemDb)
+        {
+            db = inMemDb;
+        }
         public void HandleClientRequests(object clientObject)
         {
+            //var db = new InMemoryDb();
             var client = clientObject as TcpClient;
+            var handleRequest = new HandleRequest(db);
             try
             {
                 var request = client.ReadRequest();
@@ -17,7 +25,7 @@ namespace RDJTPServer
                 if (response.Status.Contains("1"))
                 {
                     Console.WriteLine($"Response status was OK. Handling request.");
-                    response = new HandleRequest().Respond(request);
+                    response = handleRequest.Respond(request);
                 }
                 var responseToSend = response.ToJson();
 

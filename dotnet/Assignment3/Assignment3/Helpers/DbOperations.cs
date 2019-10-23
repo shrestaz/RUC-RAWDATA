@@ -1,29 +1,41 @@
-﻿namespace RDJTPServer.Helpers
+﻿using System;
+
+namespace RDJTPServer.Helpers
 {
     public class DbOperations
 
     {
-        InMemoryDb db = new InMemoryDb();
+        private InMemoryDb db;
+
+        public DbOperations(InMemoryDb inMemDb)
+        {
+            db = inMemDb;
+        }
 
         public string GetAllCategories()
         {
             return db.Categories.ToJson();
         }
 
-        public InMemoryDb.Category GetSpecificCategory(int id)
+        public InMemoryDb.Category ReadCategory(int id)
         {
             var categoryInDb = db.Categories.Find(v => v.Cid == id);
+            if (categoryInDb == null)
+            {
+                return null;
+            }
             return categoryInDb;
         }
 
         public InMemoryDb.Category UpdateCategory(int id, string updateCategoryObject)
         {
-            var categoryInDb = GetSpecificCategory(id);
+            var updateCategoryObjectDeserialized = updateCategoryObject.FromJson<InMemoryDb.Category>();
+            var categoryInDb = db.Categories.Find(v => v.Cid == id);
             if (categoryInDb == null)
             {
                 return null;
             }
-            categoryInDb.Name = updateCategoryObject.FromJson<InMemoryDb.Category>().Name;
+            categoryInDb.Name = updateCategoryObjectDeserialized.Name;
             return categoryInDb;
         }
 
