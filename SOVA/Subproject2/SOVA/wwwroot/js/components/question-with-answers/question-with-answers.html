@@ -1,0 +1,181 @@
+﻿
+<div class="float-right mt-5 pt-5 d-none d-xl-block">
+    <linked-posts></linked-posts>
+</div>
+<div class="container" data-bind="with: questionByIdWithAnswers">
+    <div class="row border-bottom border-dark" style="margin-top: 15px;">
+        <div class="col">
+            <div class="border-bottom border-dark mb-2" style="width: 100%">
+                <div class="mb-2">
+                    <h2 class="question-title" data-bind="text: title"></h2>
+                    <div data-bind="with: answers.$values[0]">
+                        <div data-bind="if: question">
+                            <div class="row pl-3" data-bind="foreach: question.questionsTags.$values">
+                                <div style="cursor:pointer" class="border rounded-lg bg-light tags" data-bind="text: !!tag.tagString ? tag.tagString : 'regex', click: $component.selectQuestionsByTag.bind($data, tag)"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-block d-md-none pt-2" style="font-size: 14px">
+                        <strong data-bind="text: submission.score"></strong>
+                        <span>votes</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row mt-4 question-body">
+                <div class="col-1 text-center d-none d-md-block text-secondary">
+                    <div>
+                        <h3 data-bind="text: submission.score"></h3>
+                    </div>
+                    <span>votes</span>
+                    <div class="d-flex justify-content-center" data-bind="if: $parent.isBookmarked() === false">
+                        <span style="font-size: 30px; cursor: pointer; user-select: none;" data-bind="click: $parent.toggleBookmark">☆</span>
+                    </div>
+                    <div class="d-flex justify-content-center" data-bind="if: $parent.isBookmarked() === true">
+                        <span style="font-size: 24px; cursor: pointer; margin-top: 4px; user-select: none;" data-bind="if: $parent.isBookmarked() === true, click: $parent.toggleBookmark">⭐</span>
+                    </div>
+                </div>
+
+                <div class="col-md-10 col-sm-12">
+                    <p data-bind="html: submission.body"></p>
+                </div>
+
+
+                <div class="col bg-light col-md-3 text-secondary offset-md-9 offset-4 offset-sm-7 pb-2 pt-2 question-details-so-member">
+                    <div class="text-secondary bg-light">
+                        <span>asked</span>
+                        <span data-bind="text: moment(submission.creationDate).format('ll')"></span>
+                        <span>at</span>
+                        <span data-bind="text: moment(submission.creationDate).format('LT')"></span>
+                        <br />
+                        <a data-bind="text: submission.soMember.displayName"> </a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3" data-bind="ifnot:$parent.annotationText()">
+                <div data-bind="if: !$parent.showAnnotations()">
+                    <button type="button" class="btn btn-primary btn-sm" data-bind="click: $parent.toggleAnnotationField">
+                        Add an annotation
+                    </button>
+                </div>
+                <div class="mt-2" data-bind="if:$parent.showAnnotations()" style="width: 50%">
+                    <textarea data-bind=" textInput:$parent.textAreaValue" style="width: 100%"> </textarea>
+                    <div style="text-align: right;">
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-bind="click: $component.saveAnnotation"> save </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-bind="click: $component.cancelAnnotation"> cancel </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-3" data-bind="if:$parent.annotationText()">
+                <span data-bind="text: $parent.annotationText()" class="p-1 mb-2 bg-warning text-dark"></span>
+                <span class="ml-2" data-bind="click: $parent.toggleAnnotationField" style="color:#007BFF; font-size:14px; cursor: pointer; user-select: none;">
+                    edit
+                </span>
+                <span class="ml-2" data-bind="click: $parent.deleteAnnotation" style="color:red; font-size:14px; cursor: pointer; user-select: none;">
+                    delete
+                </span>
+                <div class="mt-2" data-bind="if:$parent.showAnnotations()" style="width: 50%">
+                    <textarea data-bind="textInput: $component.textAreaValue" style="width: 100%"> </textarea>
+                    <div style="text-align: right;">
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-bind="click: $component.updateAnnotation"> save </button>
+                        <button type="button" class="btn btn-outline-danger btn-sm" data-bind="click: $component.cancelAnnotation"> cancel </button>
+                    </div>
+                </div>
+            </div>
+
+            <div data-bind="if: comments.$values.length > 0">
+                <div class="d-md-none comment-count">
+                    <span class="comment-user p-1">
+                        <span>Comments&nbsp;</span><span data-bind="text: comments.$values.length"></span>
+                    </span>
+                </div>
+                <div class="col-10 offset-1 px-3 pt-3 border-bottom d-none d-md-block" data-bind="foreach: comments.$values">
+                    <div class="row pl-3 py-2 text-secondary border-top comment-body">
+                        <div class="px-2 text-center" data-bind="text: submission.score"></div>
+                        <div class="col">
+                            <span data-bind="html: submission.body"></span>
+                            <span>-&nbsp;</span><span class="comment-user px-1" data-bind="text: submission.soMember.displayName ? submission.soMember.displayName : 'deletedUser'"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-10 m-md-3 py-2 answer-count">
+                <div class="row">
+                    <div data-bind="text: !!answers.$values[0] ? answers.$values[0].question.answers.$values.length - 1 : 0"></div>
+                    <span>&nbsp;Answer(s)</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div data-bind="with: answers.$values[0]">
+        <div data-bind="foreach: question.answers.$values">
+            <!-- Read here for more: https://stackoverflow.com/questions/15300322/skip-item-in-foreach-knockout-js-array -->
+            <!-- ko if: $index() != 0 -->
+            <div class="mt-2 mt-md-4 pb-2 border-bottom">
+                <div class="row">
+                    <div class="col-1 pt-md-2 text-center text-secondary d-none d-md-block">
+                        <div>
+                            <h3 data-bind="text: submission.score"></h3>
+                        </div>
+                        <span>votes</span>
+                        <div class="my-3" data-bind="if: accepted === true">
+                            <h3>✔</h3>
+                        </div>
+                    </div>
+
+                    <div class="d-block d-md-none" style="font-size: 14px">
+                        <span class="bg-secondary text-white  px-3 py-2">
+                            <strong data-bind="text: submission.score"></strong>
+                            <span>votes</span>
+                        </span>
+                        <span style="font-size: 14px;" class="badge badge-success ml-2 py-2" data-bind="if: accepted === true">
+                            Accepted ✔
+                        </span>
+                    </div>
+
+                    <div class="col-md-10 col-sm-12 pt-2">
+                        <p data-bind="html: submission.body"></p>
+                    </div>
+                    <div class="col bg-light col-md-3 text-secondary offset-md-9 offset-4 offset-sm-7 pb-2 pt-2 question-details-so-member">
+                        <span>answered</span>
+                        <span data-bind="text: moment(submission.creationDate).format('ll')"></span>
+                        <span>at</span>
+                        <span data-bind="text: moment(submission.creationDate).format('LT')"></span>
+                        <br />
+                        <a data-bind="text: submission.soMember.displayName"> </a>
+                    </div>
+                </div>
+                <div data-bind="if: submission.comments.$values.length > 0">
+                    <div class="d-md-none comment-count">
+                        <span class="comment-user p-1">
+                            <span>Comments&nbsp;</span><span data-bind="text: submission.comments.$values.length"></span>
+                        </span>
+                    </div>
+                    <div class="col-11 offset-1 px-3 pt-3 d-none d-md-block" data-bind="foreach: submission.comments.$values">
+                        <div class="row pl-3 py-2 text-secondary border-top comment-body">
+                            <span class="px-2 text-center" data-bind="text: submission.score"></span>
+                            <div class="col">
+                                <span data-bind="html: submission.body"></span>
+                                <span>-&nbsp;</span><span class="comment-user px-1" data-bind="text: submission.soMember.displayName ? submission.soMember.displayName : 'deletedUser'"></span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- /ko -->
+        </div>
+    </div>
+</div>
+<div>
+    <div data-bind="if: errorMessage">
+        <span id="snackBar" data-bind="text: errorMessage"></span>
+    </div>
+    <div data-bind="if: successMessage">
+        <span id="snackBar" data-bind="text: successMessage"></span>
+    </div>
+</div>

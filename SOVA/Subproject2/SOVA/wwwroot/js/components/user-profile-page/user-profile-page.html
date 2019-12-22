@@ -1,0 +1,20 @@
+﻿<div class="text-center mt-4">
+    <h1 class="display-4 hello-user">
+        Hello, <span data-bind="text: currentUser"></span>.
+    </h1>
+    <p class="lead hello-desc">This is your personal space. You can view your search history, annotation and bookmarks.</p>
+</div>
+<div class="container d-flex flex-column my-3">
+    <div style="display: flex; align-items: center; user-select: none; cursor: pointer;">
+        <img src="../../../assets/images/search.png" width="25" class="mr-2 list-logo" />
+        <blockquote class="blockquote mt-3 profile-list" data-bind="click: userSearchHistory">View your search history</blockquote>
+    </div>
+    <div style="display: flex; align-items: center; user-select: none; cursor: pointer;">
+        <img src="../../../assets/images/bookmark-icon.png" width="25" class="mr-2 list-logo" />
+        <blockquote class="blockquote mt-3 profile-list" data-bind="click: userBookmarks">View your bookmarked posts</blockquote>
+    </div>
+    <div style="display: flex; align-items: center; user-select: none; cursor: pointer;">
+        <img src="../../../assets/images/annotations-icon.png" width="25" class="mr-2 list-logo" />
+        <blockquote class="blockquote mt-3 profile-list" data-bind="click: userAnnotations">View your annotations on posts</blockquote>
+    </div>
+</div>

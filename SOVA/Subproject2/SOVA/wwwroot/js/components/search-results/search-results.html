@@ -1,0 +1,27 @@
+﻿<div class="container px-md-4">
+    <h3 class="border-bottom py-3 general-header" style="display: flex; align-items: center;">
+        <img src="../../../assets/images/search.png" width="30" class="mr-2 general-logo" />
+        Search results for '<span data-bind="text: searchedTerm"></span>'
+    </h3>
+
+    <div class="pl-4" data-bind="foreach: results">
+        <div class="row border-bottom pl-2 pb-2" style="margin-top: 15px;">
+            <div class="col col-sm-10">
+                <a class="row questions" data-bind="text: title, click: $parent.selectPost.bind($data, isQuestion, id)" style="cursor: pointer">
+                </a>
+            </div>
+        </div>
+    </div>
+    <div data-bind="if:(prevPage() !== null|| nextPage() !== null)" class="mt-3 d-flex justify-content-center">
+        <button type="button" class="btn btn-outline-primary" data-bind="click:searchPrev, enable:prevPage">Previous</button>
+        <button type="button" class="btn btn-outline-primary ml-2" data-bind="click:searchNext, enable:nextPage">Next</button>
+    </div>
+
+    <div data-bind="if:(results() && results().length === 0 )" style="margin-top: 15px" class="d-flex justify-content-center">
+        <img src="../../../assets/images/No-results.gif" width="600" />
+    </div>
+
+    <div style="margin-top: 15px" class="d-flex justify-content-center" data-bind="if: words">
+        <div id="cloud"></div>
+    </div>
+</div>

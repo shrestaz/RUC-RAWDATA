@@ -1,0 +1,266 @@
+﻿.header-image {
+    height: 55px;
+    cursor: pointer;
+    margin: 20px 0px 40px 80px;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+.questions {
+    cursor: pointer;
+    color: #007BFF !important;
+}
+
+    .questions:hover {
+        color: #0064bd !important;
+    }
+
+.question-list-so-member {
+    font-size: 14px;
+    text-align: center;
+    margin-right: 5px
+}
+
+.question-details-so-member {
+    font-size: 13px;
+}
+
+.questions-score {
+    text-align: center;
+}
+
+.tags {
+    font-size: 12px;
+    margin: 10px 10px 0px 0px;
+    padding: .4em;
+    color: #dc6c1c !important;
+}
+
+.question-body {
+    overflow: hidden;
+}
+
+.answer-count {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.comment-body {
+    font-size: 14px;
+}
+
+.comment-user {
+    white-space: nowrap;
+    background-color: #E1ECF4;
+    color: #07C
+}
+
+.comment-count {
+    margin-left: -14px;
+    font-size: 13px;
+}
+
+.username {
+    font-size: 1.1rem;
+}
+
+.general-sub-header {
+    font-size: 1.2rem;
+    margin-left: 40px;
+    color: #6c757d !important;
+}
+/* ***********SNACKBAR CLASSES START*********** */
+/* Ref: https://codepen.io/pratikjain/pen/xWEERw */
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackBar {
+    visibility: hidden; /* Hidden by default. Visible on click */
+    min-width: 250px; /* Set a default minimum width */
+    margin-left: -125px; /* Divide value of min-width by 2 */
+    color: #fff; /* White text color */
+    text-align: center; /* Centered text */
+    border-radius: 2px; /* Rounded borders */
+    padding: 16px; /* Padding */
+    position: fixed; /* Sit on top of the screen */
+    z-index: 1; /* Add a z-index if needed */
+    left: 50%; /* Center the snackbar */
+    bottom: 30px; /* 30px from the bottom */
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+.showSuccess {
+    font-size: 18px;
+    background-color: #339900;
+    visibility: visible !important; /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+However, delay the fade out process for 2.5 seconds */
+    animation: fadein 0.5s, fadeout 0.5s 3.2s;
+}
+
+.showError {
+    font-size: 18px;
+    background-color: #cc3300;
+    visibility: visible !important; /* Show the snackbar */
+    /* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+However, delay the fade out process for 2.5 seconds */
+    animation: fadein 0.5s, fadeout 0.5s 3.2s;
+}
+
+pre {
+    padding: 10px;
+    background-color: #eff0f1;
+    border-radius: 5px;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@keyframes fadein {
+    from {
+        bottom: 0;
+        opacity: 0;
+    }
+
+    to {
+        bottom: 30px;
+        opacity: 1;
+    }
+}
+
+@-webkit-keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+@keyframes fadeout {
+    from {
+        bottom: 30px;
+        opacity: 1;
+    }
+
+    to {
+        bottom: 0;
+        opacity: 0;
+    }
+}
+
+/* ***********SNACKBAR CLASSES END*********** */
+
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        max-width: none;
+        padding-right: 20px;
+    }
+
+    .header-image {
+        display: block;
+        margin: 5px auto 10px auto;
+        height: 35px;
+    }
+
+    .header-border {
+        border-bottom: solid;
+        border-width: 1px;
+    }
+
+    .question-list-so-member {
+        font-size: 12px;
+    }
+
+    .question-title {
+        font-size: 20px;
+    }
+
+    .question-body {
+        line-height: normal;
+        overflow: hidden;
+        box-sizing: content-box !important;
+    }
+
+    .answer-count {
+        font-size: 1.0rem
+    }
+
+    .general-header {
+        font-size: 20px;
+    }
+
+    .general-logo {
+        width: 30px;
+    }
+
+    .general-sub-header {
+        font-size: 1rem;
+        margin-left: 40px;
+    }
+
+    .hello-user {
+        font-size: 2.5rem;
+    }
+
+    .hello-desc {
+        font-size: 1.1rem;
+    }
+
+    .profile-list {
+        font-size: 1.1rem;
+    }
+
+    .list-logo {
+        width: 22px;
+    }
+
+    .search-topics {
+        font-size: 16px;
+    }
+
+    .search-list {
+        font-size: 14px;
+    }
+
+    .button-small {
+        margin-top: 5px;
+    }
+
+    .registered {
+        margin-top: .8rem !important;
+    }
+
+    .username {
+        font-size: 1rem;
+    }
+
+    .userpic {
+        width: 35px;
+    }
+
+    .userprofile {
+        margin-top: 5px;
+        text-align: left !important;
+    }
+}
+
+@media only screen and (min-width: 768px) and (max-width: 991px) {
+    .header-image {
+        margin: 5px auto 10px 20px;
+    }
+}
