@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Data_Layer.Database_Context;
+﻿using Data_Layer.Database_Context;
 using Data_Layer_Abstractions;
 using Microsoft.EntityFrameworkCore;
 using Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Data_Layer
 {
@@ -38,7 +38,7 @@ namespace Data_Layer
         {
             if (!IsMarked(submissionId, userId))
                 return false;
-            var mark = _databaseContext.Markings.FromSqlRaw("Select * from markings where submission_id={0} and user_id={1}",
+            var mark = _databaseContext.Markings.FromSql("Select * from markings where submission_id={0} and user_id={1}",
                 submissionId, userId).FirstOrDefault();
             if (mark == null)
             {
@@ -52,7 +52,7 @@ namespace Data_Layer
         public bool IsMarked(int submissionId, int userId)
         {
             var bookmarkedSubmission =
-                _databaseContext.Markings.FromSqlRaw("Select * from markings where submission_id={0} and user_id={1} limit(1)",
+                _databaseContext.Markings.FromSql("Select * from markings where submission_id={0} and user_id={1} limit(1)",
                     submissionId, userId).FirstOrDefault();
             if (bookmarkedSubmission == null)
                 return false;

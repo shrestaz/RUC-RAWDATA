@@ -82,10 +82,7 @@ namespace Data_Layer
             newStr += queryString.Replace(" ", "\', \'");
             newStr += "\'";
 
-            var query = $"SELECT * from best_match_weighted({userId}, {newStr})";
-
-
-            return _databaseContext.SearchResults.FromSqlRaw(query)
+            return _databaseContext.SearchResults.FromSql($"SELECT * from best_match_weighted({userId}, {newStr})")
                 .Skip(pagingAttributes.Page * pagingAttributes.PageSize)
                 .Take(pagingAttributes.PageSize)
                 .ToList();
@@ -99,9 +96,7 @@ namespace Data_Layer
             newStr += queryString.Replace(" ", "\', \'");
             newStr += "\'";
 
-            var query = $"SELECT * from word_2_words({userId}, {newStr})";
-
-            return _databaseContext.CloudElements.FromSqlRaw(query);
+            return _databaseContext.CloudElements.FromSql($"SELECT * from word_2_words({userId}, {newStr})");
         }
 
         public int NoOfResults(string queryString, int? userId)
@@ -112,9 +107,7 @@ namespace Data_Layer
             newStr += queryString.Replace(" ", "\', \'");
             newStr += "\'";
 
-            var query = $"SELECT * from best_match_weighted({userId}, {newStr})";
-
-            return _databaseContext.SearchResults.FromSqlRaw(query).Count();
+            return _databaseContext.SearchResults.FromSql($"SELECT * from best_match_weighted({userId}, {newStr})").Count();
         }
 
         public int NoOfResultsForTag(string tagString, int? userId)

@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using Models;
+﻿using Models;
+using System.Collections.Generic;
 
 namespace Data_Layer_Abstractions
 {
@@ -8,7 +8,7 @@ namespace Data_Layer_Abstractions
         User CreateUser(string username, string password, string salt);
         User GetUserById(int userId);
         User GetUserByUsername(string username);
-        User UpdateUser(int userId, string? username, string? password, string salt);
+        User UpdateUser(int userId, string username, string password, string salt);
         IEnumerable<User> GetUsers();
         bool DeleteUser(string username);
     }

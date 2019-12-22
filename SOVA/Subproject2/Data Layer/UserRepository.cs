@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Data_Layer.Database_Context;
+﻿using Data_Layer.Database_Context;
 using Data_Layer_Abstractions;
 using Models;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Data_Layer
 {
@@ -71,7 +71,7 @@ namespace Data_Layer
             return user;
         }
 
-        public User UpdateUser(int userId, string? updatedUsername, string? updatedPassword, string? updatedSalt)
+        public User UpdateUser(int userId, string updatedUsername, string updatedPassword, string updatedSalt)
         {
             //if (updatedUsername == null || (updatedPassword == null && updatedSalt == null))
             //{
