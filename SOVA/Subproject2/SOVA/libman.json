@@ -1,0 +1,55 @@
+{
+  "version": "1.0",
+  "defaultProvider": "unpkg",
+  "libraries": [
+    {
+      "library": "knockout@3.5.1",
+      "destination": "wwwroot/lib/knockout/"
+    },
+    {
+      "library": "moment@2.24.0",
+      "destination": "wwwroot/lib/moment/",
+      "files": [
+        "min/moment-with-locales.js"
+      ]
+    },
+    {
+      "library": "jquery@3.4.1",
+      "destination": "wwwroot/lib/jquery/",
+      "files": [
+        "dist/jquery.js"
+      ]
+    },
+    {
+      "library": "requirejs@2.3.6",
+      "destination": "wwwroot/lib/requirejs/",
+      "files": [
+        "require.js"
+      ]
+    },
+    {
+      "library": "requirejs-text@2.0.15",
+      "destination": "wwwroot/lib/requirejs-text/",
+      "files": [
+        "text.js"
+      ]
+    },
+    {
+      "library": "knockout@3.5.1",
+      "destination": "wwwroot/lib/knockout/",
+      "files": [
+        "build/output/knockout-latest.js"
+      ]
+    },
+    {
+      "library": "jqcloud2@2.0.3",
+      "destination": "wwwroot/lib/jqcloud2/",
+      "files": [
+        "dist/jqcloud.css",
+        "dist/jqcloud.js",
+        "dist/jqcloud.min.css",
+        "dist/jqcloud.min.js"
+      ]
+    }
+  ]
+}
