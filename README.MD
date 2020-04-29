@@ -6,11 +6,11 @@ Database powered by PostgreSQL, Web services built on .NET Core framework, Front
 </br>
 </br>
 <p align="center">
-<img src="https://safenet.gemalto.com/uploadedImages/images/Logos/postgresql-logo.png" height= 150>
+<img src="https://upload.wikimedia.org/wikipedia/commons/2/29/Postgresql_elephant.svg" height= 150>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 <img src="https://www.muylinux.com/wp-content/uploads/2019/09/NETCore.png" height= 150>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-<img src="https://www.trzcacak.rs/myfile/detail/17-171160_i-will-fix-your-html5-css3-javascript-jquery.png" height=150>
+<img src="https://camo.githubusercontent.com/9e805c98415545b28fff99affc2a4e084f822ea3/68747470733a2f2f73332d75732d776573742d322e616d617a6f6e6177732e636f6d2f706c7567696e7365727665722f646f635265736f75726365732f737461636b2e7376673f73616e6974697a653d74727565" height=150>
 </p>
 </br>
 </br>
